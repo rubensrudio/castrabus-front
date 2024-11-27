@@ -1,0 +1,90 @@
+<mat-card appearance="outlined" class="mat-elevation-z8 card-user">
+    <mat-card-header>
+      <mat-card-title>Atendimentos</mat-card-title>
+    </mat-card-header>
+
+    <!-- Filtros -->
+    <mat-card-content>
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>Campanha</mat-label>
+        <mat-select [(ngModel)]="filtros.campanhaId">
+          <mat-option *ngFor="let campanha of campanhas" [value]="campanha.id">{{ campanha.nomecampanha }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>Data do Agendamento</mat-label>
+        <input matInput [matDatepicker]="picker" [(ngModel)]="filtros.data">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>Nome do Tutor</mat-label>
+        <input matInput [(ngModel)]="filtros.tutor">
+      </mat-form-field>
+
+      <button style="float: right; margin-top: 22px;" mat-raised-button color="primary" (click)="buscarAgendamentos()">Filtrar</button>
+    </mat-card-content>
+
+    <!-- Tabela de Agendamentos -->
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> ID </th>
+        <td mat-cell *matCellDef="let element"> {{ element.id }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="campanha">
+        <th mat-header-cell *matHeaderCellDef> Campanha </th>
+        <td mat-cell *matCellDef="let element"> {{ element.campanha.nomecampanha }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="data">
+        <th mat-header-cell *matHeaderCellDef> Data </th>
+        <td mat-cell *matCellDef="let element"> {{ element.data }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="hora">
+        <th mat-header-cell *matHeaderCellDef> Hora </th>
+        <td mat-cell *matCellDef="let element"> {{ element.hora }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="tutor">
+        <th mat-header-cell *matHeaderCellDef> Tutor </th>
+        <td mat-cell *matCellDef="let element"> {{ element.pessoa.nomeCompleto }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="especie">
+        <th mat-header-cell *matHeaderCellDef> Espécie </th>
+        <td mat-cell *matCellDef="let element"> {{ element.animal.especie.nome }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="genero">
+        <th mat-header-cell *matHeaderCellDef> Gênero </th>
+        <td mat-cell *matCellDef="let element"> {{ element.animal.sexo.nome }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="nomeAnimal">
+        <th mat-header-cell *matHeaderCellDef> Nome Animal </th>
+        <td mat-cell *matCellDef="let element"> {{ element.animal.nome }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="senha">
+        <th mat-header-cell *matHeaderCellDef> Senha </th>
+        <td mat-cell *matCellDef="let element"> {{ element.senhaAtendimento }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef style="text-align: center;"> Ações </th>
+        <td mat-cell *matCellDef="let element" style="text-align: center;">
+          <button *ngIf="element.senhaAtendimento == null" mat-raised-button color="primary" (click)="gerarSenha(element.id)">Gerar Senha</button>
+          <button *ngIf="element.senhaAtendimento != null" mat-raised-button color="accent" [routerLink]="['/atendimentos/pre-operatorio', element.senhaAtendimento]">Pré-Operatório</button>
+          <button *ngIf="element.senhaAtendimento != null" mat-raised-button color="warn" [routerLink]="['/atendimentos/trans-operatorio', element.senhaAtendimento]">Bloco</button>
+          <button *ngIf="element.senhaAtendimento != null" mat-raised-button color="warn" [routerLink]="['/atendimentos/pos-operatorio', element.senhaAtendimento]">Pós-Operatório</button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </mat-card>

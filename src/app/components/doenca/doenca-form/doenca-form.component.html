@@ -1,0 +1,75 @@
+<mat-card appearance="outlined" class="card-form">
+    <mat-card-header>
+      <mat-card-title>{{ isView ? '' : isEdit ? 'Editar' : 'Nova' }} Doença</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="doencaForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="fill">
+          <mat-label>CPF do Tutor</mat-label>
+          <input matInput formControlName="cpfTutor">
+          <button mat-icon-button matSuffix (click)="buscarAnimais($event)">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+          <mat-error *ngIf="doencaForm.get('cpfTutor')?.hasError('required')">
+            O campo CPF é obrigatório
+          </mat-error>
+          <mat-error *ngIf="doencaForm.get('cpfTutor')?.hasError('maxlength')">
+            Valor do campo é superior a 14 caracteres
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field *ngIf="animais.length > 0" appearance="fill">
+          <mat-label>Selecionar Animal</mat-label>
+          <mat-select formControlName="animalId">
+            <mat-option *ngFor="let animal of animais" [value]="animal.id">
+              {{ animal.nome }} - {{ animal.raca }} - {{ animal.sexoId }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="doencaForm.get('animalId')?.hasError('required')">
+            É necessário selecionar um animal
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Doença</mat-label>
+          <input
+            type="text"
+            placeholder="Selecione Tipo Doença"
+            aria-label="Selecione Tipo Doença"
+            matInput
+            [matAutocomplete]="auto"
+            formControlName="nome">
+          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="onOptionSelected($event)">
+            <mat-option *ngFor="let option of filteredOptions | async" [value]="option.nome">
+              {{option.nome}}
+            </mat-option>
+            <mat-option *ngIf="(filteredOptions | async)?.length === 0" [value]="doencaForm.get('nome')!.value">
+              Novo {{doencaForm.get('nome')!.value}}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-error *ngIf="doencaForm.get('nome')?.hasError('required')">
+            É necessário selecionar o tipo de doença
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Diagnóstico</mat-label>
+          <textarea matInput formControlName="diagnostico"></textarea>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Tratamento Realizado</mat-label>
+          <textarea matInput formControlName="tratamento"></textarea>
+        </mat-form-field>
+
+        <div class="button-group">
+          <button mat-raised-button color="primary" type="submit" [disabled]="doencaForm.disabled">
+            Salvar
+          </button>
+          <button mat-raised-button color="warn" routerLink="/doenca">
+            Cancelar
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>

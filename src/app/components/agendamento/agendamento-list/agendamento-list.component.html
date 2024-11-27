@@ -1,0 +1,60 @@
+<mat-card appearance="outlined" class="mat-elevation-z8 card-user" [codPage]="1">
+  <mat-card-header style="padding: 0px 16px 0px 16px !important;">
+    <div class="div-button-add">
+      <button mat-mini-fab
+        matTooltip="Adicionar"
+        color="primary"
+        [routerLink]="['/agendamentos/create']"
+        style="margin-right: 10px; float: right;">
+          <mat-icon>add</mat-icon>
+      </button>
+    </div>
+  </mat-card-header>
+  <mat-card-content>
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef style="width: 80px; text-align: center;"> ID </th>
+          <td mat-cell *matCellDef="let element" style="text-align: center;"> {{element.id}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="campanhaId">
+          <th mat-header-cell *matHeaderCellDef> Campanha </th>
+          <td mat-cell *matCellDef="let element"> {{element.campanhaId}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="data">
+          <th mat-header-cell *matHeaderCellDef> Data </th>
+          <td mat-cell *matCellDef="let element"> {{element.data}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="hora">
+        <th mat-header-cell *matHeaderCellDef> Hora </th>
+        <td mat-cell *matCellDef="let element"> {{element.hora}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="pessoaId">
+        <th mat-header-cell *matHeaderCellDef> Tutor </th>
+        <td mat-cell *matCellDef="let element"> {{element.pessoaId}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="animalId">
+        <th mat-header-cell *matHeaderCellDef> Espécie </th>
+        <td mat-cell *matCellDef="let element"> {{element.animalId}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef style="width: 230px; text-align: center;"> Ações </th>
+          <td mat-cell *matCellDef="let element">
+          <button mat-button (click)="deleteEmpresa(element.id)" matTooltip="Excluir" *ngIf="podeExcluir(element.data, element.hora)"><i class="fas fa-trash-alt"></i></button>
+          </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator class="paginator-class" [pageSizeOptions]="[10, 50, 100]" [pageSize]="10"
+                      showFirstLastButtons
+                      aria-label="Select page">
+    </mat-paginator>
+  </mat-card-content>
+</mat-card>

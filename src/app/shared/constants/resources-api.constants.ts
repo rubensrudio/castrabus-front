@@ -1,0 +1,23 @@
+import { environment } from "../../../environments/environment";
+
+export const URL_API_AUTH = `${environment.API_URL}/Auth`;
+export const URL_API_AGENDAMENTO = `${environment.API_URL}/agendamento`;
+export const URL_API_ATENDIMENTO = `${environment.API_URL}/atendimento`;
+export const URL_API_ANIMAL = `${environment.API_URL}/animal`;
+export const URL_API_CAMPANHA = `${environment.API_URL}/Campanha`;
+export const URL_API_CONTRATANTE = `${environment.API_URL}/Contratante`;
+export const URL_API_MODULO = `${environment.API_URL}/modulo`;
+export const URL_API_EMPRESA = `${environment.API_URL}/empresa`;
+export const URL_API_IBGE = `${environment.API_URL}/ibge`;
+export const URL_API_PERFIL = `${environment.API_URL}/perfil`;
+export const URL_API_PERMISSAO = `${environment.API_URL}/permissao`;
+export const URL_API_PESSOA = `${environment.API_URL}/pessoa`;
+export const URL_API_TIPO_EMPRESA = `${environment.API_URL}/tipoEmpresa`;
+export const URL_API_TIPO_ESPECIE = `${environment.API_URL}/tipoEspecie`;
+export const URL_API_TIPO_SEXO = `${environment.API_URL}/tipoSexo`;
+export const URL_API_USUARIO = `${environment.API_URL}/usuario`;
+export const URL_API_TIPO_VACINA = `${environment.API_URL}/tipoVacina`;
+export const URL_API_TIPO_DOENCA = `${environment.API_URL}/tipoDoenca`;
+export const URL_API_VACINA = `${environment.API_URL}/vacina`;
+export const URL_API_DOENCA = `${environment.API_URL}/doenca`;
+export const URL_API_MEDICAMENTO = `${environment.API_URL}/medicamento`;

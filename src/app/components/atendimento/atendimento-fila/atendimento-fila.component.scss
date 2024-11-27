@@ -1,0 +1,116 @@
+table {
+    width: 100%;
+    margin-top: 20px;
+}
+
+th.mat-header-cell, td.mat-cell {
+    text-align: left;
+    padding: 8px;
+}
+
+th.mat-header-cell {
+    background-color: #f5f5f5;
+    font-weight: bold;
+}
+
+td.mat-cell {
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.button {
+    text-align: right;
+}
+
+.mat-fab {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}
+
+::ng-deep .mat-mdc-paginator-page-size {
+    display: none!important;
+}
+
+::ng-deep .mat-mdc-paginator-range-label {
+    position: absolute;
+    left: 0;
+    color: #919191;
+    font-size: 14px;
+}
+
+.div-button-add {
+    width: 100%;
+}
+
+.card-user {
+    border-color: #fff;
+    margin: 15px;
+    display: flex;
+    flex-direction: column;
+    height: 90vh;
+}
+
+.paginator-class {
+    border-top: 1px solid;
+    border-top-color: #74777f;
+}
+
+.form-field {
+    margin-right: 20px;
+    margin-top: 15px;
+}
+
+table.mat-elevation-z8 tr:nth-child(1) td {
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.senhas-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
+    background-color: #e0e0e0;
+    padding: 10px;
+    border-top: 1px solid #ccc;
+    flex-shrink: 0;
+}
+
+.tabela-container {
+    flex-grow: 0;
+    margin-bottom: 20px;
+}
+
+.color-container {
+  display: flex;
+  justify-content: space-around;
+  gap: 10px;
+  margin: 20px 0; /* Espaço ao redor das divs coloridas */
+  margin-bottom: 20px;
+}
+
+.color-box {
+  width: 30%; /* Largura fixa para cada div */
+  height: 45vh; /* Altura das divs */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5em;
+  color: white;
+  font-weight: bold;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.red-box {
+  background-color: #f44336; /* Vermelho */
+}
+
+.yellow-box {
+  background-color: #ffeb3b; /* Amarelo */
+  color: black; /* Texto preto para contraste */
+}
+
+.green-box {
+  background-color: #4caf50; /* Verde */
+}

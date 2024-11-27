@@ -1,0 +1,15 @@
+<mat-toolbar class="mat-elevation-z3 toolbar-image">
+  <button *ngIf="showHeader()" mat-icon-button (click)="collapsed.set(!collapsed())">
+    <mat-icon style="color: white">menu</mat-icon>
+  </button>
+  <img src="../assets/logo.png" class="header-img"/>
+</mat-toolbar>
+
+<mat-sidenav-container>
+  <mat-sidenav class="sidenav-style" *ngIf="showHeader()" opened mode="side" [style.width]="sidenavWidth()">
+    <app-menu-sidenav [collapsed]="collapsed()"></app-menu-sidenav>
+  </mat-sidenav>
+  <mat-sidenav-content class="content" [style.margin-left]="sidenavWidth()">
+    <router-outlet />
+  </mat-sidenav-content>
+</mat-sidenav-container>

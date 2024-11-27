@@ -1,0 +1,88 @@
+<mat-card appearance="outlined" class="card-form">
+    <mat-card-header>
+        <mat-card-title>{{ isView ? '' : isEdit ? 'Editar' : 'Nova' }} Vacina</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="vacinaForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="fill">
+            <mat-label>CPF do Tutor</mat-label>
+            <input matInput formControlName="cpfTutor">
+            <button mat-icon-button matSuffix (click)="buscarAnimais($event)">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+            <mat-error *ngIf="vacinaForm.get('cpfTutor')?.hasError('required')">
+              O campo CPF é obrigatório
+            </mat-error>
+            <mat-error *ngIf="vacinaForm.get('cpfTutor')?.hasError('maxlength')">
+              Valor do campo é superior a 14 caracteres
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field *ngIf="animais.length > 0" appearance="fill">
+          <mat-label>Selecionar Animal</mat-label>
+          <mat-select formControlName="animalId">
+            <mat-option *ngFor="let animal of animais" [value]="animal.id">
+              {{ animal.nome }} - {{ animal.raca }} - {{ animal.sexoId }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="vacinaForm.get('animalId')?.hasError('required')">
+            É necessário selecionar um animal
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <mat-label>Tipo de Vacina</mat-label>
+          <input type="text"
+                 placeholder="Selecione"
+                 aria-label="Tipo de Vacina"
+                 matInput
+                 formControlName="nome"
+                 [matAutocomplete]="auto">
+          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="onOptionSelected($event)">
+            <mat-option *ngFor="let option of filteredOptions | async" [value]="option.nome">
+              {{option.nome}}
+            </mat-option>
+            <mat-option *ngIf="(filteredOptions | async)?.length === 0" [value]="vacinaForm.get('nome')!.value">
+              Novo {{vacinaForm.get('nome')!.value}}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-error *ngIf="vacinaForm.get('Nome')?.hasError('required')">
+            É necessário selecionar o tipo de vacina
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Data da Vacinação</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="dataVacinacao">
+          <mat-hint>DD/MM/YYYY</mat-hint>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error *ngIf="vacinaForm.get('dataVacinacao')?.hasError('required')">
+            O campo Data da Vacinação é obrigatório
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Data da Próxima Vacinação</mat-label>
+          <input matInput [matDatepicker]="picker2" formControlName="dataProximaVacinacao">
+          <mat-hint>DD/MM/YYYY</mat-hint>
+          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+          <mat-datepicker #picker2></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Observações</mat-label>
+          <textarea matInput formControlName="observacao"></textarea>
+        </mat-form-field>
+
+        <div class="button-group">
+          <button mat-raised-button color="primary" type="submit" [disabled]="vacinaForm.disabled">
+            Salvar
+          </button>
+          <button mat-raised-button color="warn" routerLink="/vacina">
+            Cancelar
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>

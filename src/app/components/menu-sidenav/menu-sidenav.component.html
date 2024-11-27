@@ -1,0 +1,38 @@
+<div class="sidenav-header">
+  <img
+    [width]="profilePicSize()"
+    [height]="profilePicSize()"
+    src="../assets/DALL·E 2024-08-12 19.27.20 1.png"
+    matTooltip="{{ nomeUsuario }}"
+  />
+  <div class="header-text" [class.hide-header-text]="sideNavCollapsed()">
+    <h2 class="header-texy-h2">{{ nomeUsuario }}</h2>
+    <p class="header-texy-p"></p>
+  </div>
+
+  <mat-nav-list>
+    <ng-container *ngFor="let item of menuItems()">
+      <a mat-list-item class="menu-item" [routerLink]="item.route" routerLinkActive="selected-menu-item" *ngIf="!item.children" matTooltip="{{ item.label }}" (click)="handleClick(item)">
+        <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+        <span matListItemTitle *ngIf="!sideNavCollapsed()">{{ item.label }}</span>
+      </a>
+      <div *ngIf="item.children">
+        <a mat-list-item class="menu-item" (click)="toggleDropdown(item)">
+          <span matListItemTitle *ngIf="!sideNavCollapsed()">
+            {{ item.label }}
+            <mat-icon style="position: absolute;" matListItemIcon>{{ item.isExpanded ? 'expand_less' : 'expand_more' }}</mat-icon>
+          </span>
+          <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+        </a>
+        <mat-nav-list *ngIf="item.isExpanded" class="submenu">
+          <ng-container *ngFor="let child of item.children">
+            <a mat-list-item class="menu-item" [routerLink]="child.route" routerLinkActive="selected-menu-item" matTooltip="{{ child.label }}" (click)="handleClick(child)">
+              <mat-icon matListItemIcon>{{ child.icon }}</mat-icon>
+              <span matListItemTitle *ngIf="!sideNavCollapsed()">{{ child.label }}</span>
+            </a>
+          </ng-container>
+        </mat-nav-list>
+      </div>
+    </ng-container>
+  </mat-nav-list>
+</div>

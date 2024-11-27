@@ -1,0 +1,54 @@
+<mat-card appearance="outlined" class="card-form">
+  <mat-card-header>
+    <mat-card-title>{{ isView ? '' : isEdit ? 'Editar' : 'Novo' }} Usuário</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="usuarioForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <mat-form-field appearance="fill">
+          <mat-label>Usuário</mat-label>
+          <input matInput formControlName="username">
+          <mat-error *ngIf="usuarioForm.get('username')?.hasError('required')">
+            O campo usuário é obrigatório
+          </mat-error>
+          <mat-error *ngIf="usuarioForm.get('username')?.hasError('maxlength')">
+            Valor do campo é superior a 255 caracteres
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Empresa</mat-label>
+          <mat-select formControlName="empresaId" (valueChange)="getPerfis($event)">
+            <mat-option *ngFor="let empresa of empresas" [value]="empresa.id">
+              {{ empresa.nomeFantasia }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="usuarioForm.get('empresaId')?.hasError('required')">
+            O campo empresa é obrigatório
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Perfil</mat-label>
+          <mat-select formControlName="perfilId">
+            <mat-option *ngFor="let perfil of perfis" [value]="perfil.id">
+              {{ perfil.nome }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="usuarioForm.get('perfilId')?.hasError('required')">
+            O campo perfil é obrigatório
+          </mat-error>
+        </mat-form-field>
+
+        <div class="button-group">
+          <button mat-raised-button color="primary" type="submit" [disabled]="usuarioForm.disabled">
+            {{ isEdit ? 'Salvar' : 'Criar' }}
+          </button>
+          <button mat-raised-button color="warn" (click)="navigateToUsuarios()">
+            {{ isView ? 'Voltar' : 'Cancelar'}}
+          </button>
+        </div>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,121 @@
+<mat-card appearance="outlined" class="card-form">
+  <mat-card-header>
+    <mat-card-title>{{ isView ? '' : isEdit ? 'Editar' : 'Novo' }} Animal</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="animalForm" (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="fill">
+        <mat-label>Nome</mat-label>
+        <input matInput formControlName="nome">
+        <mat-error *ngIf="animalForm.get('nome')?.hasError('required')">
+          O campo nome é obrigatório
+        </mat-error>
+        <mat-error *ngIf="animalForm.get('nome')?.hasError('maxlength')">
+          Valor do campo é superior a 50 caracteres
+        </mat-error>
+      </mat-form-field>
+
+      <div style="display: inline-flex;">
+        <mat-form-field appearance="fill" style="margin-right: 30px;">
+          <mat-label>Anos</mat-label>
+          <input matInput formControlName="ano" type="text">
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Meses</mat-label>
+          <input matInput formControlName="meses" type="text">
+        </mat-form-field>
+      </div>
+
+      <div style="display: inline-flex;">
+        <mat-form-field appearance="fill" style="margin-right: 30px;">
+          <mat-label>Peso</mat-label>
+          <input matInput formControlName="peso" type="number">
+          <mat-error *ngIf="animalForm.get('peso')?.hasError('required')">
+            O campo peso é obrigatório
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Chip</mat-label>
+          <input matInput formControlName="chip">
+          <mat-error *ngIf="animalForm.get('chip')?.hasError('maxlength')">
+            Valor do campo é superior a 50 caracteres
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div style="display: inline-flex;">
+        <mat-form-field appearance="fill" style="margin-right: 30px;">
+          <mat-label>Raça</mat-label>
+          <input matInput formControlName="raca">
+          <mat-error *ngIf="animalForm.get('raca')?.hasError('maxlength')">
+            Valor do campo é superior a 50 caracteres
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Pelagem (Cor)</mat-label>
+          <input matInput formControlName="pelagem">
+          <mat-error *ngIf="animalForm.get('pelagem')?.hasError('maxlength')">
+            Valor do campo é superior a 50 caracteres
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Gênero</mat-label>
+        <mat-select formControlName="sexoId">
+          <mat-option *ngFor="let sexo of tipoSexo" [value]="sexo.id">
+            {{ sexo.nome === 'Masculino' ? 'Macho' : 'Fêmea' }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="animalForm.get('sexoId')?.hasError('required')">
+          O campo gênero é obrigatório
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Espécie</mat-label>
+        <mat-select formControlName="especieId">
+          <mat-option *ngFor="let especie of tipoEspecie" [value]="especie.id">
+            {{ especie.nome }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="animalForm.get('especieId')?.hasError('required')">
+          O campo espécie é obrigatório
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>CPF do Tutor</mat-label>
+        <input matInput formControlName="cpf">
+        <button mat-icon-button matSuffix (click)="buscarTutor($event)">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+        <mat-error *ngIf="animalForm.get('cpf')?.hasError('required')">
+          O campo CPF é obrigatório
+        </mat-error>
+        <mat-error *ngIf="animalForm.get('cpf')?.hasError('maxlength')">
+          Valor do campo é superior a 14 caracteres
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Tutor</mat-label>
+        <input matInput formControlName="tutor" [readonly]="true">
+        <mat-error *ngIf="animalForm.get('tutor')?.hasError('required')">
+          O campo tutor é obrigatório
+        </mat-error>
+      </mat-form-field>
+
+      <div class="button-group">
+        <button mat-raised-button color="primary" type="submit" [disabled]="animalForm.disabled">
+          {{ isEdit ? 'Salvar' : 'Criar' }}
+        </button>
+        <button mat-raised-button color="warn" routerLink="/animais">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
+
+

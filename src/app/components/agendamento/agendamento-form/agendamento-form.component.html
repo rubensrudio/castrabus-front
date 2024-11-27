@@ -1,0 +1,83 @@
+<mat-card appearance="outlined" class="card-form">
+  <mat-card-header>
+    <mat-card-title>Agendamento</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-stepper linear #stepper>
+      <mat-step [stepControl]="agendamentoForm">
+        <form [formGroup]="agendamentoForm">
+          <ng-template matStepLabel>Selecione a Campanha</ng-template>
+          <mat-form-field appearance="fill">
+            <mat-label>Campanha</mat-label>
+            <mat-select formControlName="campanhaId" (selectionChange)="onCampanhaChange($event)">
+              <mat-option *ngFor="let campanha of campanhas" [value]="campanha.id">
+                {{ campanha.nomecampanha }} - {{ campanha.dataInicio }} {{ campanha.dataFim }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>CPF do tutor</mat-label>
+            <input matInput formControlName="cpf">
+            <button mat-icon-button matSuffix (click)="buscarAnimais()">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+            <mat-error *ngIf="agendamentoForm2.get('cpf')?.hasError('required')">
+              O campo CPF é obrigatório
+            </mat-error>
+            <mat-error *ngIf="agendamentoForm2.get('cpf')?.hasError('maxlength')">
+              Valor do campo é superior a 14 caracteres
+            </mat-error>
+          </mat-form-field>
+
+          <div *ngIf="animais">
+            <div>Selecione o Animal:</div><br>
+            <mat-radio-group formControlName="animalId">
+              <mat-radio-button *ngFor="let animal of animais" [value]="animal.id">
+                {{ animal.nome }} - {{ animal.raca }} - {{ animal.sexoId }}
+              </mat-radio-button>
+            </mat-radio-group>
+          </div>
+          <div><br /></div>
+          <div>
+            <button mat-raised-button color="primary" matStepperNext>Próximo</button>
+            <button mat-raised-button color="warn" (click)="concluirAgendamento()">Cancelar</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="agendamentoForm2">
+        <form [formGroup]="agendamentoForm2">
+          <mat-form-field appearance="fill">
+            <mat-label>Data</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="data" (dateChange)="onDateChange($event)" [min]="minDate" [max]="maxDate">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Horário</mat-label>
+            <mat-select formControlName="horario">
+              <mat-option *ngFor="let horario of horarios" [value]="horario" [disabled]="!horario.disponivel">
+                {{ horario.horaInicio }} - {{ horario.horaFim }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <div class="button-group">
+            <button mat-raised-button color="primary" (click)="onSubmit()">Concluir Agendamento</button>
+            <button mat-raised-button color="warn" matStepperPrevious>Voltar</button>
+            <button mat-raised-button color="warn" (click)="concluirAgendamento()">Cancelar</button>
+          </div>
+        </form>
+      </mat-step>
+    </mat-stepper>
+  </mat-card-content>
+</mat-card>
+
+<div *ngIf="showModal" class="modal-overlay">
+  <div class="modal-container">
+    <p>Deseja fazer um novo Agendamento?</p>
+    <button mat-raised-button color="primary" (click)="novoAgendamento()">Novo Agendamento</button>
+    <button mat-raised-button color="primary" (click)="concluirAgendamento()">Concluir</button>
+  </div>
+</div>

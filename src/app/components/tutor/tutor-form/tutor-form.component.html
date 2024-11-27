@@ -1,0 +1,171 @@
+<mat-card appearance="outlined" class="card-form">
+    <mat-card-header>
+      <mat-card-title>{{ isView ? '' : isEdit ? 'Editar' : 'Novo' }} Tutor</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="pessoaForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="fill">
+          <mat-label>Nome Completo</mat-label>
+          <input matInput formControlName="nomeCompleto">
+          <mat-error *ngIf="pessoaForm.get('nomeCompleto')?.hasError('required')">
+            O campo nome completo é obrigatório
+          </mat-error>
+          <mat-error *ngIf="pessoaForm.get('nomeCompleto')?.hasError('maxlength')">
+            Valor do campo é superior a 255 caracteres
+          </mat-error>
+        </mat-form-field>
+  
+        <div style="display: inline-flex;">
+            <mat-form-field appearance="fill" style="margin-right: 30px;">
+              <mat-label>CPF</mat-label>
+              <input matInput formControlName="cpf">
+              <mat-error *ngIf="pessoaForm.get('cpf')?.hasError('required')">
+                O campo CPF é obrigatório
+              </mat-error>
+              <mat-error *ngIf="pessoaForm.get('cpf')?.hasError('maxlength')">
+                Valor do campo é superior a 14 caracteres
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+              <mat-label>Identidade</mat-label>
+              <input matInput formControlName="identidade">
+              <mat-error *ngIf="pessoaForm.get('identidade')?.hasError('required')">
+                O campo Identidade é obrigatório
+              </mat-error>
+              <mat-error *ngIf="pessoaForm.get('identidade')?.hasError('maxlength')">
+                Valor do campo é superior a 30 caracteres
+              </mat-error>
+            </mat-form-field>
+          </div>
+    
+          <div style="display: inline-flex;">
+            <mat-form-field appearance="fill" style="margin-right: 30px;">
+              <mat-label>Data de Nascimento</mat-label>
+              <input matInput formControlName="dataNascimento" type="date">
+              <mat-error *ngIf="pessoaForm.get('dataNascimento')?.hasError('required')">
+                O campo data de nascimento é obrigatório
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+              <mat-label>Telefone</mat-label>
+              <input matInput formControlName="telefone">
+              <mat-error *ngIf="pessoaForm.get('telefone')?.hasError('required')">
+                O campo Telefone é obrigatório
+              </mat-error>
+              <mat-error *ngIf="pessoaForm.get('telefone')?.hasError('maxlength')">
+                Valor do campo é superior a 30 caracteres
+              </mat-error>
+            </mat-form-field>
+          </div>
+    
+          <div style="display: inline-flex;">
+            <mat-form-field appearance="fill" style="margin-right: 30px;">
+              <mat-label>Gênero</mat-label>
+              <mat-select formControlName="sexoId">
+                <mat-option *ngFor="let sexo of tipoSexo" [value]="sexo.id">
+                  {{ sexo.nome }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="pessoaForm.get('sexoId')?.hasError('required')">
+                O campo gênero é obrigatório
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+              <mat-label>E-mail</mat-label>
+              <input matInput formControlName="email">
+              <mat-error *ngIf="pessoaForm.get('email')?.hasError('required')">
+                O campo E-mail é obrigatório
+              </mat-error>
+              <mat-error *ngIf="pessoaForm.get('email')?.hasError('email')">
+                Não é um e-mail válido
+              </mat-error>
+              <mat-error *ngIf="pessoaForm.get('email')?.hasError('maxlength')">
+                Valor do campo é superior a 100 caracteres
+              </mat-error>
+            </mat-form-field>
+          </div>
+    
+          <mat-form-field appearance="fill">
+            <mat-label>CEP</mat-label>
+            <input matInput formControlName="cep">
+            <mat-error *ngIf="pessoaForm.get('cep')?.hasError('required')">
+              O campo CEP é obrigatório
+            </mat-error>
+            <mat-error *ngIf="pessoaForm.get('cep')?.hasError('maxlength')">
+              Valor do campo é superior a 9 caracteres
+            </mat-error>
+          </mat-form-field>
+    
+          <mat-form-field appearance="fill">
+            <mat-label>Endereço</mat-label>
+            <input matInput formControlName="endereco">
+            <mat-error *ngIf="pessoaForm.get('endereco')?.hasError('required')">
+              O campo Endereço é obrigatório
+            </mat-error>
+            <mat-error *ngIf="pessoaForm.get('endereco')?.hasError('maxlength')">
+              Valor do campo é superior a 4000 caracteres
+            </mat-error>
+          </mat-form-field>
+
+          <div style="display: inline-flex;">
+            <mat-form-field appearance="fill" style="margin-right: 30px;">
+              <mat-label>Estado</mat-label>
+              <mat-select formControlName="estadoId" (selectionChange)="onEstadoChange()">
+                <mat-option *ngFor="let estado of estados" [value]="estado.id">{{ estado.nome }}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="pessoaForm.get('estadoId')?.hasError('required')">
+                O campo Estado é obrigatório
+              </mat-error>
+              <mat-error *ngIf="pessoaForm.get('estadoId')?.hasError('maxlength')">
+                Valor do campo é superior a 2 caracteres
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="fill" style="margin-right: 30px;">
+              <mat-label>Cidade</mat-label>
+              <mat-select formControlName="cidadeId" (selectionChange)="onCidadeChange()">
+                <mat-option *ngFor="let cidade of cidades" [value]="cidade.id">{{ cidade.nome }}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="pessoaForm.get('cidadeId')?.hasError('required')">
+                O campo Cidade é obrigatório
+              </mat-error>
+              <mat-error *ngIf="pessoaForm.get('cidadeId')?.hasError('maxlength')">
+                Valor do campo é superior a 50 caracteres
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+              <mat-label>Bairro</mat-label>
+              <mat-select formControlName="bairroId">
+                <mat-option *ngFor="let bairro of bairros" [value]="bairro.id">{{ bairro.nome }}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="pessoaForm.get('bairroId')?.hasError('required')">
+                O campo Bairro é obrigatório
+              </mat-error>
+              <mat-error *ngIf="pessoaForm.get('bairroId')?.hasError('maxlength')">
+                Valor do campo é superior a 50 caracteres
+              </mat-error>
+            </mat-form-field>
+          </div>
+    
+          <mat-form-field appearance="fill" *ngIf="senhaEnable">
+            <mat-label>Senha para o Usuário</mat-label>
+            <input matInput formControlName="senha" type="password">
+            <mat-error *ngIf="pessoaForm.get('senha')?.hasError('required')">
+              O campo Senha é obrigatório
+            </mat-error>
+            <mat-error *ngIf="pessoaForm.get('senha')?.hasError('maxlength')">
+              Valor do campo é superior a 100 caracteres
+            </mat-error>
+          </mat-form-field>
+  
+        <div class="button-group">
+          <button mat-raised-button color="primary" type="submit" [disabled]="pessoaForm.disabled">
+            {{ isEdit ? 'Salvar' : 'Criar' }}
+          </button>
+          <button mat-raised-button color="warn" (click)="navigateTo()">
+            Cancelar
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+  

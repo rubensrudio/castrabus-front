@@ -1,0 +1,39 @@
+.toolbar-image {
+  background: #262A73;
+  color: #419FD9;
+}
+
+mat-toolbar {
+  position: relative;
+  z-index: 5;
+}
+
+.content {
+  /*overflow: hidden;*/
+  /*padding: 24px;
+  padding-left: 15px;
+  padding-right: 15px;*/
+}
+
+mat-sidenav-container {
+  height: calc(100vh - 64px);
+}
+
+mat-sidenav,
+mat-sidenav-content{
+  transition: all 500ms ease-in-out;
+}
+
+.header-img {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  height: 50px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.sidenav-style {
+  border-right: 1px solid;
+  border-radius: 0px;
+  border-right-color: lightgray;
+}

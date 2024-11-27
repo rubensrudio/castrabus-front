@@ -1,0 +1,414 @@
+<mat-card appearance="outlined" class="card-form">
+  <mat-card-header>
+    <mat-card-title>Atendimento {{ tipoAtendimento }}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div style="padding: 15px 15px 0px 15px;">
+      <mat-form-field appearance="fill" style="width: 100%;">
+        <mat-label>Senha</mat-label>
+        <input matInput placeholder="Informe a Senha" [(ngModel)]="senha">
+        <button mat-icon-button matSuffix (click)="buscarSenha($event)">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </mat-form-field>
+    </div>
+    <form [formGroup]="atendimentoForm" (ngSubmit)="onSubmit()" style="padding-top: 0;">
+      <mat-accordion class="headers-align">
+        <mat-expansion-panel class="panel-dados-gerais" style="margin-top: 15px;">
+          <mat-expansion-panel-header>
+            <mat-panel-title> Dados do Tutor </mat-panel-title>
+            <mat-panel-description>
+              &nbsp;
+              <mat-icon>person</mat-icon>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <mat-form-field appearance="fill" style="margin-right: 30px;">
+            <mat-label>CPF</mat-label>
+            <input matInput formControlName="CPF" required>
+            <mat-error *ngIf="atendimentoForm.get('CPF')?.hasError('required')">
+              CPF é obrigatório
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Nome Completo</mat-label>
+            <input matInput formControlName="nomeCompleto" required>
+            <mat-error *ngIf="atendimentoForm.get('nomeCompleto')?.hasError('required')">
+              Nome completo é obrigatório
+            </mat-error>
+          </mat-form-field>
+
+          <div style="display: inline-flex; width: 100%;">
+            <mat-form-field appearance="fill" style="width: 45%; margin-right: 10px;">
+              <mat-label>Telefone</mat-label>
+              <input matInput formControlName="telefone" required>
+              <mat-error *ngIf="atendimentoForm.get('telefone')?.hasError('required')">
+                Telefone é obrigatório
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+              <mat-label>Email</mat-label>
+              <input matInput formControlName="email" required>
+              <mat-error *ngIf="atendimentoForm.get('email')?.hasError('required')">
+                Email inválido
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel class="panel-dados-gerais">
+          <mat-expansion-panel-header>
+            <mat-panel-title> Dados do Animal </mat-panel-title>
+            <mat-panel-description>
+              &nbsp;
+              <mat-icon>pets</mat-icon>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <div style="display: inline-flex; width: 100%;">
+            <mat-form-field appearance="fill" style="margin-right: 10px;">
+              <mat-label>Nome</mat-label>
+              <input matInput formControlName="nome" required>
+              <mat-error *ngIf="atendimentoForm.get('nome')?.hasError('required')">
+                Nome do animal é obrigatório
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+              <mat-label>Raça</mat-label>
+              <input matInput formControlName="raca" required>
+              <mat-error *ngIf="atendimentoForm.get('raca')?.hasError('required')">
+                Raça é obrigatória
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div style="display: inline-flex; width: 100%;">
+            <mat-form-field appearance="fill" style="margin-right: 10px;">
+              <mat-label>Peso</mat-label>
+              <input matInput formControlName="peso" required>
+              <mat-error *ngIf="atendimentoForm.get('peso')?.hasError('required')">
+                Peso é obrigatório
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+              <mat-label>Idade</mat-label>
+              <input matInput formControlName="ano" required>
+              <mat-error *ngIf="atendimentoForm.get('ano')?.hasError('required')">
+                Idade é obrigatória
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div style="display: inline-flex; width: 100%;">
+            <mat-form-field appearance="fill" style="margin-right: 10px;">
+              <mat-label>Gênero</mat-label>
+              <mat-select formControlName="sexoId" required>
+                <mat-option *ngFor="let sexo of tipoSexo" [value]="sexo.id">
+                  {{ sexo.nome === 'Masculino' ? 'Macho' : 'Fêmea' }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="atendimentoForm.get('sexoId')?.hasError('required')">
+                Gênero é obrigatório
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+              <mat-label>Espécie</mat-label>
+              <mat-select formControlName="especieId" required>
+                <mat-option *ngFor="let especie of tipoEspecie" [value]="especie.id">
+                  {{ especie.nome }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="atendimentoForm.get('especieId')?.hasError('required')">
+                Espécie é obrigatória
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div style="display: inline-flex; width: 100%;">
+            <mat-form-field appearance="fill" style="margin-right: 10px;">
+              <mat-label>Chip</mat-label>
+              <input matInput formControlName="chip">
+              <mat-error *ngIf="atendimentoForm.get('chip')?.hasError('maxlength')">
+                Valor do campo é superior a 50 caracteres
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+              <mat-label>Pelagem (Cor)</mat-label>
+              <input matInput formControlName="pelagem">
+              <mat-error *ngIf="atendimentoForm.get('pelagem')?.hasError('maxlength')">
+                Valor do campo é superior a 50 caracteres
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <mat-accordion>
+            <mat-expansion-panel class="panel-dados-gerais" style="margin: 0 !important;">
+              <mat-expansion-panel-header>
+                <mat-panel-title> Doença </mat-panel-title>
+                <mat-panel-description>
+                  &nbsp;
+                  <mat-icon>person</mat-icon>
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+
+            </mat-expansion-panel>
+
+            <mat-expansion-panel class="panel-dados-gerais" style="margin: 0 !important;">
+              <mat-expansion-panel-header>
+                <mat-panel-title> Vacina </mat-panel-title>
+                <mat-panel-description>
+                  &nbsp;
+                  <mat-icon>person</mat-icon>
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+
+            </mat-expansion-panel>
+          </mat-accordion>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel [expanded]="0" class="panel-dados-gerais" style="margin-bottom: 25px;">
+          <mat-expansion-panel-header>
+            <mat-panel-title> Anamnese </mat-panel-title>
+            <mat-panel-description>
+              &nbsp;
+              <mat-icon>medical_services</mat-icon>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <div class="div-radio">
+            <div class="div-radio-jejum">
+              <label style="padding: 10px;" id="jejum">Fez Jejum?</label>
+              <mat-radio-group formControlName="jejum" aria-label="Fez Jejum" required>
+                <mat-radio-button [value]="true">Sim</mat-radio-button>
+                <mat-radio-button [value]="false">Não</mat-radio-button>
+              </mat-radio-group>
+              <mat-error *ngIf="atendimentoForm.get('jejum')?.hasError('required')">
+                Este campo é obrigatório
+              </mat-error>
+            </div>
+
+            <mat-form-field appearance="fill" class="div-radio-jejum-input">
+              <mat-label>Qual o horário da última alimentação?</mat-label>
+              <input matInput formControlName="ultimaAlimentacao" required>
+              <mat-error *ngIf="atendimentoForm.get('ultimaAlimentacao')?.hasError('required')">
+                Este campo é obrigatório
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="div-radio-jejum-input">
+              <mat-label>Qual o horário da última ingestão de líquidos?</mat-label>
+              <input matInput formControlName="ultimaIngestaoLiquidos" required>
+              <mat-error *ngIf="atendimentoForm.get('ultimaIngestaoLiquidos')?.hasError('required')">
+                Este campo é obrigatório
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="div-radio">
+            <div class="div-radio-jejum">
+              <label style="padding: 10px;" id="jejum">Este animal ficou preso durante a noite?</label>
+              <mat-radio-group formControlName="presoDuranteNoite" aria-label="Preso durante a noite" required>
+                <mat-radio-button [value]="true">Sim</mat-radio-button>
+                <mat-radio-button [value]="false">Não</mat-radio-button>
+              </mat-radio-group>
+              <mat-error *ngIf="atendimentoForm.get('presoDuranteNoite')?.hasError('required')">
+                Este campo é obrigatório
+              </mat-error>
+            </div>
+          </div>
+
+          <div class="div-radio">
+            <div class="div-radio-jejum">
+              <label style="padding: 10px;" id="jejum">Este animal ficou solto durante a noite?</label>
+              <mat-radio-group formControlName="soltoDuranteNoite" aria-label="Solto durante a noite">
+                <mat-radio-button [value]="true">Sim</mat-radio-button>
+                <mat-radio-button [value]="false">Não</mat-radio-button>
+              </mat-radio-group>
+              <mat-error *ngIf="atendimentoForm.get('soltoDuranteNoite')?.hasError('required')">
+                Este campo é obrigatório
+              </mat-error>
+            </div>
+
+            <mat-form-field appearance="fill" class="div-radio-jejum-input">
+              <mat-label>Se ficou solto, qual horário foi preso para a castração?</mat-label>
+              <input matInput formControlName="horarioPreso">
+            </mat-form-field>
+          </div>
+
+          <div class="div-radio">
+            <div class="div-radio-jejum">
+              <label style="padding: 10px;" id="jejum">O animal está urinando e evacuando normalmente?</label>
+              <mat-radio-group formControlName="urinandoNormalmente" aria-label="Urinando e evacuando normalmente" required>
+                <mat-radio-button [value]="true">Sim</mat-radio-button>
+                <mat-radio-button [value]="false">Não</mat-radio-button>
+              </mat-radio-group>
+              <mat-error *ngIf="atendimentoForm.get('urinandoNormalmente')?.hasError('required')">
+                Este campo é obrigatório
+              </mat-error>
+            </div>
+          </div>
+
+          <div class="div-radio">
+            <div class="div-radio-jejum">
+              <label style="padding: 10px;" id="jejum">Faz uso de injeção anti-cio?</label>
+              <mat-radio-group formControlName="antiCio" aria-label="Anti-cio" required>
+                <mat-radio-button [value]="true">Sim</mat-radio-button>
+                <mat-radio-button [value]="false">Não</mat-radio-button>
+              </mat-radio-group>
+              <mat-error *ngIf="atendimentoForm.get('antiCio')?.hasError('required')">
+                Este campo é obrigatório
+              </mat-error>
+            </div>
+
+            <mat-form-field appearance="fill" class="div-radio-jejum-input">
+              <mat-label>Quando foi a última aplicação?</mat-label>
+              <input matInput formControlName="ultimaAplicacao">
+            </mat-form-field>
+          </div>
+
+          <div class="div-radio">
+            <div class="div-radio-jejum">
+              <label style="padding: 10px;" id="jejum">Histórico de cio recente?</label>
+              <mat-radio-group formControlName="cioRecente" aria-label="Histórico de cio recente" required>
+                <mat-radio-button [value]="true">Sim</mat-radio-button>
+                <mat-radio-button [value]="false">Não</mat-radio-button>
+              </mat-radio-group>
+              <mat-error *ngIf="atendimentoForm.get('cioRecente')?.hasError('required')">
+                Este campo é obrigatório
+              </mat-error>
+            </div>
+
+            <mat-form-field appearance="fill" class="div-radio-jejum-input">
+              <mat-label>Quando?</mat-label>
+              <input matInput formControlName="quandoCruzou">
+            </mat-form-field>
+          </div>
+
+          <div class="div-radio">
+            <div class="div-radio-jejum">
+              <label style="padding: 10px;" id="jejum">Tem filhote recente?</label>
+              <mat-radio-group formControlName="filhoteRecente" aria-label="Filhote recente" required>
+                <mat-radio-button [value]="true">Sim</mat-radio-button>
+                <mat-radio-button [value]="false">Não</mat-radio-button>
+              </mat-radio-group>
+              <mat-error *ngIf="atendimentoForm.get('filhoteRecente')?.hasError('required')">
+                Este campo é obrigatório
+              </mat-error>
+            </div>
+
+            <mat-form-field appearance="fill" class="div-radio-jejum-input">
+              <mat-label>Idade do filhote</mat-label>
+              <input matInput formControlName="idadeFilhote">
+            </mat-form-field>
+          </div>
+          <br>
+          <div class="div-radio">
+            <mat-form-field appearance="fill" class="div-radio-jejum-input">
+              <mat-label>Nos últimos dias notou perda de peso, falta de apetite, vômito ou diarreia, ou alguma outra alteração no comportamento do animal?</mat-label>
+              <textarea matInput formControlName="observacoesComportamento"></textarea>
+              <mat-error *ngIf="atendimentoForm.get('observacoesComportamento')?.hasError('required')">
+                Este campo é obrigatório
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="div-radio">
+            <div class="div-radio-jejum">
+              <label style="padding: 10px;" id="jejum">Tem histórico veterinário?</label>
+              <mat-radio-group formControlName="historicoVeterinario" aria-label="Histórico veterinário" required>
+                <mat-radio-button [value]="true">Sim</mat-radio-button>
+                <mat-radio-button [value]="false">Não</mat-radio-button>
+              </mat-radio-group>
+              <mat-error *ngIf="atendimentoForm.get('historicoVeterinario')?.hasError('required')">
+                Este campo é obrigatório
+              </mat-error>
+            </div>
+          </div>
+
+          <div class="div-radio">
+            <div class="div-radio-jejum">
+              <label style="padding: 10px;" id="jejum">Já passou por tratamento medicamentoso ou procedimento cirúrgico?</label>
+              <mat-radio-group formControlName="tratamentoCirurgico" aria-label="Tratamento cirúrgico">
+                <mat-radio-button [value]="true">Sim</mat-radio-button>
+                <mat-radio-button [value]="false">Não</mat-radio-button>
+              </mat-radio-group>
+              <mat-error *ngIf="atendimentoForm.get('tratamentoCirurgico')?.hasError('required')">
+                Este campo é obrigatório
+              </mat-error>
+            </div>
+
+            <mat-form-field appearance="fill" class="div-radio-jejum-input">
+              <mat-label>Quando?</mat-label>
+              <input matInput formControlName="quandoTratamentoCirurgico">
+            </mat-form-field>
+          </div>
+
+          <div class="div-radio">
+            <div class="div-radio-jejum">
+              <label style="padding: 10px;" id="jejum">Algum histórico de doenças?</label>
+              <mat-radio-group formControlName="historicoDoencas" aria-label="Histórico de doenças" required>
+                <mat-radio-button [value]="true">Sim</mat-radio-button>
+                <mat-radio-button [value]="false">Não</mat-radio-button>
+              </mat-radio-group>
+              <mat-error *ngIf="atendimentoForm.get('historicoDoencas')?.hasError('required')">
+                Este campo é obrigatório
+              </mat-error>
+            </div>
+          </div>
+
+          <div class="div-radio">
+            <div class="div-radio-jejum">
+              <label style="padding: 10px;" id="jejum">Crise epilética?</label>
+              <mat-radio-group formControlName="criseEpileptica" aria-label="Crise epilética" required>
+                <mat-radio-button [value]="true">Sim</mat-radio-button>
+                <mat-radio-button [value]="false">Não</mat-radio-button>
+              </mat-radio-group>
+              <mat-error *ngIf="atendimentoForm.get('criseEpileptica')?.hasError('required')">
+                Este campo é obrigatório
+              </mat-error>
+            </div>
+          </div>
+
+          <div class="div-radio">
+            <div class="div-radio-jejum">
+              <label style="padding: 10px;" id="jejum">Apresentou algum desmaio?</label>
+              <mat-radio-group formControlName="desmaios" aria-label="Desmaios" required>
+                <mat-radio-button [value]="true">Sim</mat-radio-button>
+                <mat-radio-button [value]="false">Não</mat-radio-button>
+              </mat-radio-group>
+              <mat-error *ngIf="atendimentoForm.get('desmaios')?.hasError('required')">
+                Este campo é obrigatório
+              </mat-error>
+            </div>
+          </div>
+
+          <div class="div-radio">
+            <div class="div-radio-jejum">
+              <label style="padding: 10px;" id="jejum">Vermifugado?</label>
+              <mat-radio-group formControlName="vermifugado" aria-label="Vermifugado" required>
+                <mat-radio-button [value]="true">Sim</mat-radio-button>
+                <mat-radio-button [value]="false">Não</mat-radio-button>
+              </mat-radio-group>
+              <mat-error *ngIf="atendimentoForm.get('vermifugado')?.hasError('required')">
+                Este campo é obrigatório
+              </mat-error>
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+      <div class="button-group">
+        <button mat-raised-button color="primary" type="submit" [disabled]="atendimentoForm.disabled">
+          Salvar
+        </button>
+        <button mat-raised-button color="warn" (click)="listaAtendimentos()">
+          Voltar
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

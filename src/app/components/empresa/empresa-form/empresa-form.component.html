@@ -1,0 +1,89 @@
+<mat-card appearance="outlined" class="card-form">
+  <mat-card-header>
+    <mat-card-title>{{ isView ? '' : isEdit ? 'Editar' : 'Nova' }} Empresa</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="empresaForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <mat-form-field appearance="fill">
+          <mat-label>Nome Fantasia</mat-label>
+          <input matInput formControlName="nomeFantasia">
+          <mat-error *ngIf="empresaForm.get('nomeFantasia')?.hasError('required')">
+            O campo nome fantasia é obrigatório
+          </mat-error>
+          <mat-error *ngIf="empresaForm.get('nomeFantasia')?.hasError('maxlength')">
+            Valor do campo é superior a 200 caracteres
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Razão Social</mat-label>
+          <input matInput formControlName="razaoSocial">
+          <mat-error *ngIf="empresaForm.get('razaoSocial')?.hasError('maxlength')">
+            Valor do campo é superior a 200 caracteres
+          </mat-error>
+        </mat-form-field>
+
+        <div style="display: inline-flex;">
+          <mat-form-field appearance="fill" style="margin-right: 30px;">
+            <mat-label>Tipo Empresa</mat-label>
+            <mat-select formControlName="tipoEmpresaId">
+              <mat-option *ngFor="let tipoEmpresa of tipoEmpresas" [value]="tipoEmpresa.id">{{ tipoEmpresa.nome }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="fill" style="margin-right: 30px;">
+            <mat-label>CNPJ</mat-label>
+            <input matInput formControlName="cnpj">
+            <mat-error *ngIf="empresaForm.get('cnpj')?.hasError('required')">
+              O campo CNPJ é obrigatório
+            </mat-error>
+            <mat-error *ngIf="empresaForm.get('cnpj')?.hasError('maxlength')">
+              Valor do campo é superior a 20 caracteres
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Telefone</mat-label>
+            <input matInput formControlName="telefone">
+            <mat-error *ngIf="empresaForm.get('telefone')?.hasError('required')">
+              O campo telefone é obrigatório
+            </mat-error>
+            <mat-error *ngIf="empresaForm.get('telefone')?.hasError('maxlength')">
+              Valor do campo é superior a 30 caracteres
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div style="display: inline-flex;">
+          <mat-form-field appearance="fill" style="margin-right: 30px;">
+            <mat-label>Responsável</mat-label>
+            <input matInput formControlName="responsavel">
+            <mat-error *ngIf="empresaForm.get('responsavel')?.hasError('maxlength')">
+              Valor do campo é superior a 50 caracteres
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email">
+            <mat-error *ngIf="empresaForm.get('email')?.hasError('email')">
+              Email inválido
+            </mat-error>
+            <mat-error *ngIf="empresaForm.get('email')?.hasError('maxlength')">
+              Valor do campo é superior a 100 caracteres
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="button-group">
+          <button mat-raised-button color="primary" type="submit" [disabled]="empresaForm.disabled">
+            {{ isEdit ? 'Salvar' : 'Criar' }}
+          </button>
+          <button mat-raised-button color="warn" (click)="navigateToEmpresas()">
+            {{ isView ? 'Voltar' : 'Cancelar'}}
+          </button>
+        </div>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
+
+

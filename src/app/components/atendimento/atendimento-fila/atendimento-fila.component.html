@@ -1,0 +1,41 @@
+<mat-card appearance="outlined" class="mat-elevation-z8 card-user">
+    <mat-card-header>
+      <mat-card-title>Próximos Atendimentos</mat-card-title>
+    </mat-card-header>
+
+    <div class="tabela-container">
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <ng-container matColumnDef="senha">
+          <th mat-header-cell *matHeaderCellDef> Senha </th>
+          <td mat-cell *matCellDef="let element"> {{ element.senha }} </td>
+        </ng-container>
+        <ng-container matColumnDef="tutor">
+          <th mat-header-cell *matHeaderCellDef> Tutor </th>
+          <td mat-cell *matCellDef="let element"> {{ element.pessoa.nomeCompleto }} </td>
+        </ng-container>
+        <ng-container matColumnDef="especie">
+          <th mat-header-cell *matHeaderCellDef> Espécie </th>
+          <td mat-cell *matCellDef="let element"> {{ element.animal.especie.nome }} </td>
+        </ng-container>
+        <ng-container matColumnDef="nomeAnimal">
+          <th mat-header-cell *matHeaderCellDef> Nome Animal </th>
+          <td mat-cell *matCellDef="let element"> {{ element.animal.nome }} </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+
+    <div class="color-container">
+      <div class="color-box red-box">Vermelho</div>
+      <div class="color-box yellow-box">Amarelo</div>
+      <div class="color-box green-box">Verde</div>
+    </div>
+
+    <div><b>Últimos Atendimentos</b></div>
+    <div class="senhas-container">
+      <div class="senha" *ngFor="let senha of ultimasSenhas">
+        {{ senha }}
+      </div>
+    </div>
+  </mat-card>

@@ -1,0 +1,106 @@
+<mat-card appearance="outlined" class="card-form">
+  <mat-card-header>
+    <mat-card-title>{{ isView ? '' : isEdit ? 'Editar' : 'Novo' }} Contratante</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="contratanteForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <mat-form-field appearance="fill">
+          <mat-label>Nome Fantasia</mat-label>
+          <input matInput formControlName="nomeFantasia">
+          <mat-error *ngIf="contratanteForm.get('nomeFantasia')?.hasError('required')">
+            O campo nome fantasia é obrigatório
+          </mat-error>
+          <mat-error *ngIf="contratanteForm.get('nomeFantasia')?.hasError('maxlength')">
+            Valor do campo é superior a 200 caracteres
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Razão Social</mat-label>
+          <input matInput formControlName="razaoSocial">
+          <mat-error *ngIf="contratanteForm.get('razaoSocial')?.hasError('maxlength')">
+            Valor do campo é superior a 200 caracteres
+          </mat-error>
+        </mat-form-field>
+
+        <div style="display: inline-flex;">
+          <mat-form-field appearance="fill" style="margin-right: 30px;">
+            <mat-label>Tipo Empresa</mat-label>
+            <mat-select formControlName="tipoEmpresaId">
+              <mat-option *ngFor="let tipoEmpresa of tipoEmpresas" [value]="tipoEmpresa.id">{{ tipoEmpresa.nome }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="fill" style="margin-right: 30px;">
+            <mat-label>CNPJ</mat-label>
+            <input matInput formControlName="cnpj">
+            <mat-error *ngIf="contratanteForm.get('cnpj')?.hasError('required')">
+              O campo CNPJ é obrigatório
+            </mat-error>
+            <mat-error *ngIf="contratanteForm.get('cnpj')?.hasError('maxlength')">
+              Valor do campo é superior a 20 caracteres
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Telefone</mat-label>
+            <input matInput formControlName="telefone">
+            <mat-error *ngIf="contratanteForm.get('telefone')?.hasError('required')">
+              O campo telefone é obrigatório
+            </mat-error>
+            <mat-error *ngIf="contratanteForm.get('telefone')?.hasError('maxlength')">
+              Valor do campo é superior a 30 caracteres
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div style="display: inline-flex;">
+          <mat-form-field appearance="fill" style="margin-right: 30px;">
+            <mat-label>Responsável</mat-label>
+            <input matInput formControlName="responsavel">
+            <mat-error *ngIf="contratanteForm.get('responsavel')?.hasError('maxlength')">
+              Valor do campo é superior a 50 caracteres
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email">
+            <mat-error *ngIf="contratanteForm.get('email')?.hasError('email')">
+              Email inválido
+            </mat-error>
+            <mat-error *ngIf="contratanteForm.get('email')?.hasError('maxlength')">
+              Valor do campo é superior a 100 caracteres
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <!--mat-form-field appearance="fill">
+          <mat-label>Arquivos</mat-label>
+          <input type="file" (change)="onFileSelected($event)" multiple>
+        </mat-form-field>
+  
+        <div-- *ngIf="uploadedFiles.length > 0">
+          <h4>Arquivos para upload:</h4>
+          <ul>
+            <li *ngFor="let file of uploadedFiles; let i = index">
+              {{ file.name }}
+              <button mat-mini-fab color="warn" (click)="removeFile(i)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </li>
+          </ul>
+        </div-->
+
+        <div class="button-group">
+          <button mat-raised-button color="primary" type="submit" [disabled]="contratanteForm.disabled">
+            {{ isEdit ? 'Salvar' : 'Criar' }}
+          </button>
+          <button mat-raised-button color="warn" (click)="navigateToContratantes()">
+            {{ isView ? 'Voltar' : 'Cancelar'}}
+          </button>
+        </div>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
+
+

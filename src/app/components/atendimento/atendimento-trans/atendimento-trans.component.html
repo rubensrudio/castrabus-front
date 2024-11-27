@@ -1,0 +1,129 @@
+<mat-card appearance="outlined" class="card-form">
+  <mat-card-header>
+    <mat-card-title>Bloco (Trans-Operatório)</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div style="padding: 15px 15px 0px 15px;">
+      <mat-form-field appearance="fill" style="width: 100%;">
+        <mat-label>Senha</mat-label>
+        <input matInput placeholder="Informe a Senha" [(ngModel)]="senha">
+        <button mat-icon-button matSuffix (click)="buscarSenha($event)">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </mat-form-field>
+    </div>
+    <form [formGroup]="atendimentoForm" (ngSubmit)="onSubmit()" style="padding-top: 0;">
+      <mat-accordion class="headers-align" multi>
+        <mat-expansion-panel class="panel-dados-gerais" style="margin-bottom: 15px;">
+          <mat-expansion-panel-header>
+            <mat-panel-title> Dados do Animal </mat-panel-title>
+            <mat-panel-description>
+              &nbsp;
+              <mat-icon>pets</mat-icon>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <div>
+            <div style="width: 50%; display: inline-flex;">
+              <label for="" style="margin-right: 10px">Nome:</label> <p>{{ animal?.nome }}</p>
+            </div>
+            <div style="width: 50%; display: inline-flex;">
+              <label for="" style="margin-right: 10px">Raça:</label> <p>{{ animal?.raca }}</p>
+            </div>
+          </div>
+
+          <div>
+            <div style="width: 50%; display: inline-flex;">
+              <label for="" style="margin-right: 10px">Peso:</label> <p>{{ animal?.peso }} Kg</p>
+            </div>
+            <div style="width: 50%; display: inline-flex;">
+              <label for="" style="margin-right: 10px">Idade:</label> <p>{{ animal?.ano }} ano(s) {{ animal?.meses > 0 ? 'e ' + animal?.meses + ' meses' : '' }}</p>
+            </div>
+          </div>
+
+          <div>
+            <div style="width: 50%; display: inline-flex;">
+              <label for="" style="margin-right: 10px">Gênero:</label> <p>{{ animal?.sexo?.nome }}</p>
+            </div>
+            <div style="width: 50%; display: inline-flex;">
+              <label for="" style="margin-right: 10px">Espécie:</label> <p>{{ animal?.especie?.nome }}</p>
+            </div>
+          </div>
+
+          <div>
+            <div style="width: 50%; display: inline-flex;">
+              <label for="" style="margin-right: 10px">Chip:</label> <p>{{ animal?.chip }}</p>
+            </div>
+            <div style="width: 50%; display: inline-flex;">
+              <label for="" style="margin-right: 10px">Pelagem (Cor):</label> <p>{{ animal?.pelagem }}</p>
+            </div>
+          </div>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel [expanded]="0" class="panel-dados-gerais" style="margin-bottom: 25px;">
+          <mat-expansion-panel-header>
+            <mat-panel-title> Informações da Cirurgia </mat-panel-title>
+            <mat-panel-description>
+              &nbsp;
+              <i class="fa-regular fa-hospital" style="font-size: 20px;"></i>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <mat-form-field appearance="fill" style="margin-right: 10px;">
+            <mat-label>Veterinario</mat-label>
+            <mat-select formControlName="veterinario_Id" required>
+              <mat-option *ngFor="let v of veterinarios" [value]="v.id">
+                {{ v.nomeCompleto }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="atendimentoForm.get('veterinario_Id')?.hasError('required')">
+              Veterinário é obrigatório
+            </mat-error>
+          </mat-form-field>
+
+          <div style="margin-bottom: 10px;">
+            <label id="esterilizacao">Esterilização?</label>
+            <mat-radio-group formControlName="esterilizacao" aria-label="Esterilização" required>
+              <mat-radio-button [value]="true">Sim</mat-radio-button>
+              <mat-radio-button [value]="false">Não</mat-radio-button>
+            </mat-radio-group>
+            <mat-error *ngIf="atendimentoForm.get('esterilizacao')?.hasError('required')">
+              Este campo é obrigatório
+            </mat-error>
+          </div>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Motivo?</mat-label>
+            <textarea matInput formControlName="motivoEsterilizacao" required></textarea>
+            <mat-error *ngIf="atendimentoForm.get('motivoEsterilizacao')?.hasError('required')">
+              Este campo é obrigatório
+            </mat-error>
+          </mat-form-field>
+
+          <div style="margin-bottom: 10px;">
+            <label id="esterilizacao">Intercorrência?</label>
+            <mat-radio-group formControlName="intercorrencia" aria-label="Intercorrência" required>
+              <mat-radio-button [value]="true">Sim</mat-radio-button>
+              <mat-radio-button [value]="false">Não</mat-radio-button>
+            </mat-radio-group>
+            <mat-error *ngIf="atendimentoForm.get('intercorrencia')?.hasError('required')">
+              Este campo é obrigatório
+            </mat-error>
+          </div>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Motivo?</mat-label>
+            <textarea matInput formControlName="motivoIntercorrencia" required></textarea>
+            <mat-error *ngIf="atendimentoForm.get('motivoIntercorrencia')?.hasError('required')">
+              Este campo é obrigatório
+            </mat-error>
+          </mat-form-field>
+        </mat-expansion-panel>
+      </mat-accordion>
+      <div class="button-group">
+        <button mat-raised-button color="primary" type="submit">Salvar</button>
+        <button mat-raised-button color="warn" type="button" routerLink="/atendimentos">Cancelar</button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

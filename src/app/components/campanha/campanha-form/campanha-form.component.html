@@ -1,0 +1,272 @@
+<mat-card appearance="outlined" class="card-form">
+  <mat-card-header>
+    <mat-card-title>{{ isView ? '' : isEdit ? 'Editar' : 'Nova' }} Campanha</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="campanhaForm" (ngSubmit)="onSubmit()">
+      <mat-tab-group>
+        <!--Dados Gerais da Campanha-->
+        <mat-tab label="Dados Gerais da Campanha">
+          <div style="padding-top: 30px;">
+            <mat-form-field appearance="fill">
+              <mat-label>Nome da Campanha</mat-label>
+              <input matInput type="text" formControlName="nomecampanha">
+              <mat-error *ngIf="campanhaForm.get('nomecampanha')?.hasError('required')">
+                O campo Nome Campanha é obrigatório
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+              <mat-label>Local da Campanha</mat-label>
+              <input matInput type="text" formControlName="localcampanha">
+              <mat-error *ngIf="campanhaForm.get('localcampanha')?.hasError('required')">
+                O campo Local da Campanha é obrigatório
+              </mat-error>
+            </mat-form-field>
+
+            <div style="display: inline-flex; width: 100%;">
+              <mat-form-field appearance="fill" style="margin-right: 30px;">
+                <mat-label>Estado</mat-label>
+                <mat-select formControlName="estadoId" (selectionChange)="onEstadoChange()">
+                  <mat-option *ngFor="let estado of estados" [value]="estado.id">{{ estado.nome }}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="campanhaForm.get('estadoId')?.hasError('required')">
+                  O campo Estado é obrigatório
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="fill" style="margin-right: 30px;">
+                <mat-label>Cidade</mat-label>
+                <mat-select formControlName="cidadeId" (selectionChange)="onCidadeChange()">
+                  <mat-option *ngFor="let cidade of cidades" [value]="cidade.id">{{ cidade.nome }}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="campanhaForm.get('cidadeId')?.hasError('required')">
+                  O campo Cidade é obrigatório
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="fill">
+                <mat-label>Bairro</mat-label>
+                <mat-select formControlName="bairroId">
+                  <mat-option *ngFor="let bairro of bairros" [value]="bairro.id">{{ bairro.nome }}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="campanhaForm.get('bairroId')?.hasError('required')">
+                  O campo Bairro é obrigatório
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </mat-tab>
+
+        <!--Faixa de Horarios-->
+        <mat-tab label="Faixa de Horarios">
+          <div style="padding-top: 30px;">
+            <div style="display: inline-flex; width: 100%;">
+              <mat-form-field appearance="fill" style="margin-right: 30px;">
+                <mat-label>Data Início</mat-label>
+                <input matInput [matDatepicker]="pickerInicio" formControlName="dataInicio">
+                <mat-hint>DD/MM/YYYY</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="pickerInicio"></mat-datepicker-toggle>
+                <mat-datepicker #pickerInicio></mat-datepicker>
+                <mat-error *ngIf="campanhaForm.get('dataInicio')?.hasError('required')">
+                  O campo Data Início é obrigatório
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="fill">
+                <mat-label>Data Fim</mat-label>
+                <input matInput [matDatepicker]="pickerFim" formControlName="dataFim">
+                <mat-hint>DD/MM/YYYY</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="pickerFim"></mat-datepicker-toggle>
+                <mat-datepicker #pickerFim></mat-datepicker>
+                <mat-error *ngIf="campanhaForm.get('dataFim')?.hasError('required')">
+                  O campo Data Fim é obrigatório
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div style="display: inline-flex; width: 100%;">
+              <mat-form-field appearance="fill" style="margin-right: 30px;">
+                <mat-label>Hora Início</mat-label>
+                <input matInput type="time" formControlName="horaInicio">
+                <mat-error *ngIf="campanhaForm.get('horaInicio')?.hasError('required')">
+                  O campo Hora Início é obrigatório
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="fill" style="margin-right: 30px;">
+                <mat-label>Hora Fim</mat-label>
+                <input matInput type="time" formControlName="horaFim">
+                <mat-error *ngIf="campanhaForm.get('horaFim')?.hasError('required')">
+                  O campo Hora Fim é obrigatório
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="fill" style="margin-right: 30px;">
+                <mat-label>Hora Início Intervalo</mat-label>
+                <input matInput type="time" formControlName="horaInicioIntervalo" >
+                <mat-error *ngIf="campanhaForm.get('horaInicioIntervalo')?.hasError('required')">
+                  O campo Hora Início Intervalo é obrigatório
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="fill" style="margin-right: 30px;">
+                <mat-label>Hora Fim Intervalo</mat-label>
+                <input matInput type="time" formControlName="horaFimIntervalo" >
+                <mat-error *ngIf="campanhaForm.get('horaFimIntervalo')?.hasError('required')">
+                  O campo Hora Fim Intervalo é obrigatório
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="fill">
+                <mat-label>Faixa de Intervalo</mat-label>
+                <input matInput type="number" min="0" formControlName="intervaloAtendimento" >
+                <mat-error *ngIf="campanhaForm.get('intervaloAtendimento')?.hasError('required')">
+                  O campo Faixa de Intervalo Intervalo é obrigatório
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div style="display: inline-flex; width: 100%;">
+              <button mat-mini-fab
+                type="button"
+                matTooltip="Gerar Faixa de Horarios"
+                color="primary"
+                (click)="gerarHorarios()"
+                [disabled]="campanhaForm.disabled"
+                style="margin-left: auto; margin-right: 10px; margin-bottom: 20px;">
+                  <mat-icon>add</mat-icon>
+              </button>
+            </div>
+
+            <div class="table-wrapper">
+              <table mat-table [dataSource]="dataSourceFaixaHorario" class="mat-elevation-z8">
+                <!-- Horário Column -->
+                <ng-container matColumnDef="horario">
+                  <th mat-header-cell *matHeaderCellDef> Faixa de Horario </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.horario | date: 'HH:mm' }} </td>
+                </ng-container>
+
+                <!-- Valor Editável Column -->
+                <ng-container matColumnDef="valor">
+                  <th mat-header-cell *matHeaderCellDef> Tipo de Especie </th>
+                  <td mat-cell *matCellDef="let element">
+                    <mat-form-field appearance="fill" style="margin-bottom: 0; margin-top: 20px;">
+                      <mat-label>Tipo de Especie</mat-label>
+                      <mat-select formControlName="tipoEspecieId">
+                        <mat-option *ngFor="let ep of tipoEspecie" [value]="ep.id">{{ ep.nome }}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+              <label>Dias de Atendimento:</label>
+              <div formGroupName="diasAtendimento" style="display: inline-flex;">
+                <div *ngFor="let dia of ['domingo', 'segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado']; let i = index">
+                  <mat-checkbox [formControlName]="dia">{{ dia | titlecase }}</mat-checkbox>
+                </div>
+              </div>
+            </div>
+
+            <mat-form-field appearance="fill">
+              <mat-label>Pontuação Dia</mat-label>
+              <input matInput type="number" formControlName="pontuacaoDia">
+              <mat-error *ngIf="campanhaForm.get('pontuacaoDia')?.hasError('required')">
+                O campo Pontuação Dia é obrigatório
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </mat-tab>
+
+        <!--Restrições-->
+        <mat-tab label="Restrições">
+          <div style="padding-top: 30px;">
+            <div formGroupName="restricaoEspecie" style="margin-bottom: 20px;">
+              <label>Restrição por Espécie:</label>
+              <div formGroupName="canino">
+                <label>Canino:</label>
+                <mat-checkbox formControlName="manha">Manhã</mat-checkbox>
+                <mat-checkbox formControlName="tarde">Tarde</mat-checkbox>
+              </div>
+              <div formGroupName="felino">
+                <label>Felino:</label>
+                <mat-checkbox formControlName="manha">Manhã</mat-checkbox>
+                <mat-checkbox formControlName="tarde">Tarde</mat-checkbox>
+              </div>
+            </div>
+
+            <div>
+              <label>Restrição por Medicamentos:</label>
+              <div style="float: left; width: 90%; margin-top: 10px;">
+                <mat-form-field appearance="fill" style="width: 100%;">
+                  <mat-label>Medicamento</mat-label>
+                  <input
+                    type="text"
+                    placeholder="Buscar medicamento"
+                    matInput
+                    [matAutocomplete]="auto"
+                    [formControl]="searchControl"
+                  />
+                  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn.bind(this)">
+                    <mat-option *ngFor="let medicamento of medicamentosFiltrados | async" [value]="medicamento">
+                        {{ medicamento.nome }} - {{ medicamento.dosagem }}{{ medicamento.unidadeMedida }}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+              </div>
+              <div style="float: right; padding-top: 15px;">
+                <button mat-raised-button color="primary" (click)="adicionarMedicamentoSelecionado()">
+                    Adicionar
+                </button>
+              </div>
+            </div>
+
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="margin-bottom: 25px;">
+              <ng-container matColumnDef="nome">
+                <th mat-header-cell *matHeaderCellDef> Nome </th>
+                <td mat-cell *matCellDef="let element"> {{ element.nome }} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="dosagem">
+                <th mat-header-cell *matHeaderCellDef> Dosagem </th>
+                <td mat-cell *matCellDef="let element"> {{ element.dosagem }} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="unidadeMedida">
+                <th mat-header-cell *matHeaderCellDef> Unidade de Medida </th>
+                <td mat-cell *matCellDef="let element"> {{ element.unidadeMedida }} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="remover">
+                <th mat-header-cell *matHeaderCellDef> Ações </th>
+                <td mat-cell *matCellDef="let element">
+                  <button mat-button color="warn" (click)="removerMedicamento(element)">Remover</button>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumnsMedicamentos"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumnsMedicamentos;"></tr>
+            </table>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+
+      <div class="button-group">
+        <button mat-raised-button color="primary" type="submit" [disabled]="campanhaForm.disabled">
+          {{ isEdit ? 'Salvar' : 'Criar' }}
+        </button>
+        <button mat-raised-button color="warn" routerLink="/campanhas">
+          {{ isView ? 'Voltar' : 'Cancelar'}}
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
+
+

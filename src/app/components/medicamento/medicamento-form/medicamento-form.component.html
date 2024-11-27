@@ -1,0 +1,130 @@
+<mat-card appearance="outlined" class="card-form">
+  <mat-card-header>
+    <mat-card-title>{{ isView ? '' : isEdit ? 'Editar' : 'Novo' }} Medicamento</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="medicamentoForm" (ngSubmit)="onSubmit()">
+
+      <mat-form-field appearance="fill">
+        <mat-label>Nome</mat-label>
+        <input matInput formControlName="nome">
+        <mat-error *ngIf="medicamentoForm.get('nome')?.hasError('required')">
+          O campo nome é obrigatório
+        </mat-error>
+        <mat-error *ngIf="medicamentoForm.get('nome')?.hasError('maxlength')">
+          Valor do campo é superior a 255 caracteres
+        </mat-error>
+      </mat-form-field>
+
+      <div style="display: inline-flex;">
+        <mat-form-field appearance="fill" style="margin-right: 10px;">
+          <mat-label>Tipo de Medicamento</mat-label>
+          <mat-select formControlName="capsulaComprimido">
+            <mat-option *ngFor="let cp of capsulaComprimidos" [value]="cp">{{ cp }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" style="margin-right: 10px;">
+          <mat-label>Dosagem</mat-label>
+          <input matInput formControlName="dosagem" type="number" min="0">
+          <mat-error *ngIf="medicamentoForm.get('dosagem')?.hasError('required')">
+            O campo nome é obrigatório
+          </mat-error>
+          <mat-error *ngIf="medicamentoForm.get('dosagem')?.hasError('maxlength')">
+            Valor do campo é superior a 255 caracteres
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" style="margin-right: 10px;">
+          <mat-label>Unidade de Medida</mat-label>
+          <input matInput formControlName="unidadeMedida" type="text">
+          <mat-error *ngIf="medicamentoForm.get('unidadeMedida')?.hasError('required')">
+            O campo nome é obrigatório
+          </mat-error>
+          <mat-error *ngIf="medicamentoForm.get('unidadeMedida')?.hasError('maxlength')">
+            Valor do campo é superior a 255 caracteres
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Tipo de Espécie</mat-label>
+          <mat-select formControlName="tipoEspecie_Id">
+            <mat-option *ngFor="let especie of tipoEspecie" [value]="especie.id">
+              {{ especie.nome }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <mat-card appearance="outlined" class="card-sub-form" style="margin-bottom: 20px;">
+        <mat-card-header>
+          <mat-card-title>Recomendação</mat-card-title>
+          <div class="div-button-add">
+            <button mat-mini-fab
+              type="button"
+              matTooltip="Adicionar"
+              color="primary"
+              (click)="openDialog()"
+              [disabled]="medicamentoForm.disabled"
+              style="margin-right: 10px; float: right;">
+                <mat-icon>add</mat-icon>
+            </button>
+          </div>
+        </mat-card-header>
+        <mat-card-content>
+          <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="margin-top: 15px;">
+            <ng-container matColumnDef="faixaPeso">
+              <th mat-header-cell *matHeaderCellDef> Faixa de Peso </th>
+              <td mat-cell *matCellDef="let element"> {{element.pesoInicio}} <= {{element.pesoFim}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="quantidadeComprimidos">
+              <th mat-header-cell *matHeaderCellDef> QTD. Comprimidos </th>
+              <td mat-cell *matCellDef="let element"> {{element.qtdComprimidos}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="dose">
+              <th mat-header-cell *matHeaderCellDef> Dose </th>
+              <td mat-cell *matCellDef="let element"> {{element.dose}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="dias">
+              <th mat-header-cell *matHeaderCellDef> Dias </th>
+              <td mat-cell *matCellDef="let element"> {{element.dias}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="uso">
+              <th mat-header-cell *matHeaderCellDef> Uso </th>
+              <td mat-cell *matCellDef="let element"> {{element.uso}} </td>
+            </ng-container>
+
+            <!-- Coluna de ações -->
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef> Ações </th>
+              <td mat-cell *matCellDef="let element">
+                <button mat-icon-button type="button" [disabled]="medicamentoForm.disabled" (click)="editItem(element)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button type="button" [disabled]="medicamentoForm.disabled" (click)="deleteItem(element)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </mat-card-content>
+      </mat-card>
+
+      <div class="button-group">
+        <button mat-raised-button color="primary" type="submit" [disabled]="medicamentoForm.disabled">
+          {{ isEdit ? 'Salvar' : 'Criar' }}
+        </button>
+        <button mat-raised-button color="warn" routerLink="/medicamento">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

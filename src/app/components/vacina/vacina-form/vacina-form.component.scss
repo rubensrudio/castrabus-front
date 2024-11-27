@@ -1,0 +1,45 @@
+/* Estilo do formulário */
+form {
+    display: flex;
+    flex-direction: column;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 16px;
+    /*background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);*/
+  
+    @media (min-width: 768px) {
+      max-width: 100%;
+    }
+  
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+  
+    mat-form-field {
+      width: 100%;
+      margin-bottom: 16px;
+    }
+  
+    .button-group {
+      display: flex;
+      justify-content: space-between;
+      /*margin-top: 24px;*/
+  
+      button {
+        flex: 1;
+        margin-right: 16px;
+  
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+    }
+  }
+  
+  .card-form {
+    margin: 40px;
+  }
+  

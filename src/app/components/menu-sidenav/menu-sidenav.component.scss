@@ -1,0 +1,61 @@
+:host * {
+  transition: all 500ms ease-in-out;
+}
+
+.sidenav-header {
+  padding-top: 24px;
+  text-align: center;
+}
+
+.sidenav-header > img {
+  border-radius: 100%;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+.header-texy {
+  height: 3rem;
+};
+
+.header-texy-h2 {
+  margin: 0;
+  font-size: 1rem !important;
+  line-height: 1.5rem !important;
+};
+
+.header-texy-p {
+  margin: 0;
+  font-size: 0.8rem !important
+};
+
+.hide-header-text {
+  opacity: 0;
+  height: 0px !important;
+}
+
+.menu-item {
+  border-radius: 0px !important;
+  border-left: 5px solid;
+  border-left-color: rgba(0,0,0,0);
+}
+
+.selected-menu-item {
+  border-left-color: blue;
+  background: rgba(0,0,0,0.05);
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &.submenu-item {
+    padding-left: 32px; // indentação para submenus
+    font-size: 0.9rem;
+  }
+
+  &.active-submenu {
+    background-color: rgba(0, 0, 0, 0.1); // destaque para submenu ativo
+    font-weight: bold;
+  }
+}
